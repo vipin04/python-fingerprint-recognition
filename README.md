@@ -6,6 +6,7 @@ Requirements:
 - NumPy
 - SKimage
 - OpenCV2
+- fingerprint_enhancer
 
 
 Works by extracting minutiae points using harris corner detection.
