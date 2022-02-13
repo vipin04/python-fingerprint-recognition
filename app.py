@@ -3,10 +3,9 @@ import os
 import sys
 import numpy
 import matplotlib.pyplot as plt
-from enhance import image_enhance
+from fingerprint_enhancer import enhance_Fingerprint
+# from enhance import image_enhance
 from skimage.morphology import skeletonize, thin
-
-os.chdir("/app/")
 
 def removedot(invertThin):
     temp0 = numpy.array(invertThin[:])
@@ -42,7 +41,8 @@ def removedot(invertThin):
 def get_descriptors(img):
 	clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8,8))
 	img = clahe.apply(img)
-	img = image_enhance.image_enhance(img)
+	print('image: ', img)
+	img = enhance_Fingerprint(img)
 	img = numpy.array(img, dtype=numpy.uint8)
 	# Threshold
 	ret, img = cv2.threshold(img, 127, 255, cv2.THRESH_BINARY_INV | cv2.THRESH_OTSU)
@@ -67,7 +67,7 @@ def get_descriptors(img):
 	orb = cv2.ORB_create()
 	# Compute descriptors
 	_, des = orb.compute(img, keypoints)
-	return (keypoints, des);
+	return (keypoints, des)
 
 
 def main():
@@ -103,6 +103,7 @@ def main():
 		print("Fingerprint matches.")
 	else:
 		print("Fingerprint does not match.")
+	print('score: ', score)
 
 
 
